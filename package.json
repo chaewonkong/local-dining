@@ -1,0 +1,11 @@
+{
+  "name": "local-dining",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Leon Kong",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "node": "^11.10.0"
+  }
+}
