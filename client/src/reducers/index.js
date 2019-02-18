@@ -1,4 +1,4 @@
-import { combineReducer, combineReducers } from "redux";
+import { combineReducers } from "redux";
 import placeReducer from "./placeReducer";
 
 export default combineReducers({
