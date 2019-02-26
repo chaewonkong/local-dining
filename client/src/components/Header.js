@@ -35,9 +35,10 @@ const styles = {
     alignItems: "center"
   },
   headerText: {
-    margin: 0
+    margin: "3vh 0 0 0"
   },
   searchBox: {
+    width: "100%",
     margin: 0
   }
 };
