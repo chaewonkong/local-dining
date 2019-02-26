@@ -6,9 +6,15 @@ const Landing = () => {
   return (
     <div>
       <MapContainer />
-      <ListContainer />
+      <ListContainer style={styles.listStyle} />
     </div>
   );
+};
+
+const styles = {
+  listStyle: {
+    marginTop: "3vh"
+  }
 };
 
 export default Landing;

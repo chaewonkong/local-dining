@@ -1,5 +1,5 @@
 import React from "react";
 
-const ListContainer = () => <div>List Container</div>;
+const ListContainer = props => <div style={props.style}>List Container</div>;
 
 export default ListContainer;

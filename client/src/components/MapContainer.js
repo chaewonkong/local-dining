@@ -7,10 +7,12 @@ class MapContainer extends Component {
     return (
       <RenderAfterNavermapsLoaded ncpClientId="rrwyegccx8">
         <NaverMap
-          mapDivId={"maps-getting-started-uncontrolled"} // default: react-naver-map
+          mapDivId={"react-naver-map"}
           style={{
             width: "100%",
-            height: "300px"
+            height: "300px",
+            margin: 0,
+            padding: 0
           }}
           defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
           defaultZoom={10}

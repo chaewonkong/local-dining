@@ -45,7 +45,7 @@ const styles = {
   pageContainer: {
     width: "90%",
     maxWidth: "800px",
-    margin: "10vh 0"
+    margin: "3vh 0"
   }
 };
 

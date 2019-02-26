@@ -13,7 +13,7 @@ class Header extends Component {
     const { container, headerText, searchBox } = styles;
     return (
       <div style={container}>
-        <h1 style={headerText}>우리동네 가성비 밥상</h1>
+        <h3 style={headerText}>우리동네 가성비 밥상</h3>
         <TextField
           style={searchBox}
           name="search"
@@ -30,15 +30,17 @@ class Header extends Component {
 
 const styles = {
   container: {
+    width: "100%",
+    maxWidth: "800px",
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   headerText: {
-    margin: "3vh 0 0 0"
+    margin: "3vh 3vw 0 0"
   },
   searchBox: {
-    width: "100%",
+    width: "30vw",
     margin: 0
   }
 };
