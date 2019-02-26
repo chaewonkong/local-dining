@@ -6,13 +6,13 @@ import DetailView from "./DetailView";
 import Header from "./Header";
 import "../App.css";
 
-const { Footer, Content } = Layout;
+const { Footer } = Layout;
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
+        <div style={styles.container}>
           <Header
             style={{
               position: "fixed",
@@ -24,10 +24,10 @@ class App extends Component {
           >
             This is Header
           </Header>
-          <Content style={{ paddingTop: "64px" }}>
+          <div style={styles.pageContainer}>
             <Route exact path="/" component={Landing} />
             <Route path="/places" component={DetailView} />
-          </Content>
+          </div>
           <Footer style={{ position: "absolute", bottom: 0 }}>
             This is Footer
           </Footer>
@@ -36,5 +36,17 @@ class App extends Component {
     );
   }
 }
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  pageContainer: {
+    width: "90%",
+    maxWidth: "800px",
+    margin: "10vh 0"
+  }
+};
 
 export default App;

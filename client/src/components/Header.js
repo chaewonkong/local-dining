@@ -1,27 +1,45 @@
-import React from "react";
-import { Input } from "antd";
+import React, { Component } from "react";
+import TextField from "@material-ui/core/TextField";
 
-const Search = Input.Search;
-const Header = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <h1>우리동네 착한밥상</h1>
-      <div>
-        <Search
-          placeholder="input search text"
-          enterButton
-          size="large"
-          onSearch={value => console.log(value)}
+class Header extends Component {
+  state = {};
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  render() {
+    const { container, headerText, searchBox } = styles;
+    return (
+      <div style={container}>
+        <h1 style={headerText}>우리동네 가성비 밥상</h1>
+        <TextField
+          style={searchBox}
+          name="search"
+          id="standard-search"
+          label="Search field"
+          type="search"
+          margin="normal"
+          onChange={this.handleChange}
         />
       </div>
-    </div>
-  );
+    );
+  }
+}
+
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  headerText: {
+    margin: 0
+  },
+  searchBox: {
+    margin: 0
+  }
 };
 
 export default Header;
