@@ -298,7 +298,8 @@ lint/tmp/
 # General
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 
@@ -348,3 +349,7 @@ gradle-app.setting
 .history
 
 # End of https://www.gitignore.io/api/git,node,macos,reactnative,visualstudiocode
+
+
+# Configs
+server/config/dev.js
