@@ -17,26 +17,24 @@ class Map extends Component {
   }
 
   render() {
-    console.log(this.state);
+    if (this.state.bounds) console.log(this.state.bounds._ne);
     return (
-      <RenderAfterNavermapsLoaded ncpClientId="rrwyegccx8">
-        <NaverMap
-          naverRef={ref => {
-            this.mapRef = ref;
-          }}
-          mapDivId={"react-naver-map"}
-          style={{
-            width: "100%",
-            height: "300px",
-            margin: 0,
-            padding: 0
-          }}
-          defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
-          defaultZoom={10}
-          bounds={this.state.bounds}
-          onBoundsChanged={this.handleBoundsChanged}
-        />
-      </RenderAfterNavermapsLoaded>
+      <NaverMap
+        naverRef={ref => {
+          this.mapRef = ref;
+        }}
+        mapDivId={"react-naver-map"}
+        style={{
+          width: "100%",
+          height: "300px",
+          margin: 0,
+          padding: 0
+        }}
+        defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
+        defaultZoom={10}
+        bounds={this.state.bounds}
+        onBoundsChanged={this.handleBoundsChanged}
+      />
     );
   }
   componentDidMount() {
@@ -54,5 +52,4 @@ const MapContainer = () => {
     </RenderAfterNavermapsLoaded>
   );
 };
-// export default connect(mapStateToProps)(MapContainer);
-export default MapContainer;
+export default connect(mapStateToProps)(MapContainer);
