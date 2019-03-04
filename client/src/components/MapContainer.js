@@ -2,11 +2,28 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RenderAfterNavermapsLoaded, NaverMap } from "react-naver-maps";
 
-class MapContainer extends Component {
+class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
+  }
+  changeBounds(bounds) {
+    this.setState({ bounds });
+  }
+
+  handleBoundsChanged(bounds) {
+    this.changeBounds(bounds);
+  }
+
   render() {
+    console.log(this.state);
     return (
       <RenderAfterNavermapsLoaded ncpClientId="rrwyegccx8">
         <NaverMap
+          naverRef={ref => {
+            this.mapRef = ref;
+          }}
           mapDivId={"react-naver-map"}
           style={{
             width: "100%",
@@ -16,13 +33,26 @@ class MapContainer extends Component {
           }}
           defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
           defaultZoom={10}
+          bounds={this.state.bounds}
+          onBoundsChanged={this.handleBoundsChanged}
         />
       </RenderAfterNavermapsLoaded>
     );
+  }
+  componentDidMount() {
+    // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
+    this.changeBounds(this.mapRef.getBounds());
   }
 }
 
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps)(MapContainer);
-// rrwyegccx8
+const MapContainer = () => {
+  return (
+    <RenderAfterNavermapsLoaded ncpClientId="rrwyegccx8">
+      <Map />
+    </RenderAfterNavermapsLoaded>
+  );
+};
+// export default connect(mapStateToProps)(MapContainer);
+export default MapContainer;
