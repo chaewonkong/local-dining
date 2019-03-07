@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
+import styled from "styled-components";
 
 class Header extends Component {
   state = {};
@@ -10,12 +11,10 @@ class Header extends Component {
     });
   };
   render() {
-    const { container, headerText, searchBox } = styles;
     return (
-      <div style={container}>
-        <h3 style={headerText}>우리동네 가성비 밥상</h3>
-        <TextField
-          style={searchBox}
+      <Container>
+        <HeaderText>우리동네 가성비 밥상</HeaderText>
+        <SearchBox
           name="search"
           id="standard-search"
           label="Search field"
@@ -23,26 +22,26 @@ class Header extends Component {
           margin="normal"
           onChange={this.handleChange}
         />
-      </div>
+      </Container>
     );
   }
 }
 
-const styles = {
-  container: {
-    width: "100%",
-    maxWidth: "800px",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  headerText: {
-    margin: "3vh 3vw 0 0"
-  },
-  searchBox: {
-    width: "30vw",
-    margin: 0
-  }
-};
+const Container = styled.div`
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: row;
+  justify-content: pace-between;
+`;
+
+const HeaderText = styled.h3`
+  margin: 3vh 3vw 0 0;
+`;
+
+const SearchBox = styled(TextField)`
+  width: 30vw;
+  margin: 0;
+`;
 
 export default Header;

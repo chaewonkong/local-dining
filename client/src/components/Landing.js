@@ -1,20 +1,21 @@
 import React from "react";
+import styled from "styled-components";
 import MapContainer from "./MapContainer";
-import ListContainer from "./ListContainer";
+import List from "./List";
 
 const Landing = () => {
   return (
     <div>
       <MapContainer />
-      <ListContainer style={styles.listStyle} />
+      <ListContainer>
+        <List>ListContainer</List>
+      </ListContainer>
     </div>
   );
 };
 
-const styles = {
-  listStyle: {
-    marginTop: "3vh"
-  }
-};
+const ListContainer = styled.div`
+  margin-top: 3vh;
+`;
 
 export default Landing;

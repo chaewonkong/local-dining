@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RenderAfterNavermapsLoaded, NaverMap } from "react-naver-maps";
+import styled from "styled-components";
 
 class Map extends Component {
   constructor(props) {
@@ -19,17 +20,11 @@ class Map extends Component {
   render() {
     if (this.state.bounds) console.log(this.state.bounds._ne);
     return (
-      <NaverMap
+      <StyledMap
         naverRef={ref => {
           this.mapRef = ref;
         }}
         mapDivId={"react-naver-map"}
-        style={{
-          width: "100%",
-          height: "300px",
-          margin: 0,
-          padding: 0
-        }}
         defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
         defaultZoom={10}
         bounds={this.state.bounds}
@@ -44,6 +39,13 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => state;
+
+const StyledMap = styled(NaverMap)`
+  width: 100%;
+  height: 300px;
+  margin: 0;
+  padding: 0;
+`;
 
 const MapContainer = () => {
   return (
