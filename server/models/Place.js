@@ -14,7 +14,8 @@ const MenuSchema = new Schema({
 
 const PlaceSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   avgPrice: {
     type: Number
@@ -27,4 +28,4 @@ const PlaceSchema = new Schema({
 });
 
 const Place = mongoose.model("place", PlaceSchema);
-module.expors = Place;
+module.exports = Place;

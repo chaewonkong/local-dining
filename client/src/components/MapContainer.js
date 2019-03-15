@@ -4,10 +4,9 @@ import { RenderAfterNavermapsLoaded, NaverMap } from "react-naver-maps";
 import styled from "styled-components";
 
 class Map extends Component {
-  state = {};
+  state = { center: { lat: 37.3595704, lng: 127.105399 } };
   constructor(props) {
     super(props);
-    this.state = {};
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
   }
   changeBounds(bounds) {
@@ -19,7 +18,7 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
+    if (prevState !== this.state || prevProps !== this.props) {
       window.navigator.geolocation.getCurrentPosition(pos => {
         this.setState({
           center: {
@@ -30,8 +29,10 @@ class Map extends Component {
       });
     }
   }
+  //37.548345399999995,126.9254803
 
   render() {
+    console.log(this.state.center);
     if (this.state.bounds) console.log(this.state.bounds._ne);
     return (
       <StyledMap

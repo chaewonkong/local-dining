@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "antd": "^3.13.3",
+    "axios": "^0.18.0",
     "http-proxy-middleware": "^0.19.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.2",
