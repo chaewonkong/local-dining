@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 class Header extends Component {
   state = {};
-
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value

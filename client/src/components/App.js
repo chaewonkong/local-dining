@@ -14,12 +14,12 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Container>
-          <PageHeader>This is Header</PageHeader>
+          {/* <PageHeader>This is Header</PageHeader> */}
           <PageContainer>
             <Route exact path="/" component={Landing} />
             <Route path="/places" component={DetailView} />
           </PageContainer>
-          <PageFooter>This is Footer</PageFooter>
+          {/* <PageFooter>This is Footer</PageFooter> */}
         </Container>
       </BrowserRouter>
     );
@@ -28,14 +28,14 @@ class App extends Component {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 `;
 
 const PageContainer = styled.div`
   width: 90%;
   max-width: 800px;
-  margin: 3vh 0;
+  margin: 0 0;
 `;
 
 const PageFooter = styled(Footer)`

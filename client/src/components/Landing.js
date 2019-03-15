@@ -5,17 +5,19 @@ import List from "./List";
 
 const Landing = () => {
   return (
-    <div>
+    <Container>
       <MapContainer />
       <ListContainer>
         <List>ListContainer</List>
       </ListContainer>
-    </div>
+    </Container>
   );
 };
 
-const ListContainer = styled.div`
-  margin-top: 3vh;
+const Container = styled.div`
+  display: flex;
 `;
+
+const ListContainer = styled.div``;
 
 export default Landing;
