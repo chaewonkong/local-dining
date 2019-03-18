@@ -26,7 +26,15 @@ app.post("/api/places", (req, res) => {
 });
 
 app.get("/api/places", (req, res) => {
-  Place.find({}).then(places => res.send(places));
+  const { nex, ney, swx, swy } = req.query;
+  Place.where("geometry")
+    .within({
+      box: [
+        [parseFloat(nex), parseFloat(ney)],
+        [parseFloat(swx), parseFloat(swy)]
+      ]
+    })
+    .then(places => res.send(places));
 });
 
 const PORT = process.env.PORT || 5000;

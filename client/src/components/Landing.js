@@ -5,12 +5,11 @@ import MapContainer from "./MapContainer";
 import List from "./List";
 
 class Landing extends Component {
-  state = { loading: true };
-  componentDidMount() {
-    axios
-      .get("/api/places", (req, res) => req.body.data)
-      .then(data => this.setState({ places: data.data, loading: false }));
-  }
+  state = { loading: true, places: [] };
+
+  handleNearPlaces = places => {
+    this.setState({ places });
+  };
 
   renderPlaces() {
     if (!this.state.loading) {

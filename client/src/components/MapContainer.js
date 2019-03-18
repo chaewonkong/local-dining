@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { RenderAfterNavermapsLoaded, NaverMap } from "react-naver-maps";
+import axios from "axios";
 import styled from "styled-components";
 
 class Map extends Component {
@@ -17,7 +18,7 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state || prevProps !== this.props) {
+    if (prevState !== this.state) {
       window.navigator.geolocation.getCurrentPosition(pos => {
         this.setState({
           center: {
@@ -26,13 +27,16 @@ class Map extends Component {
           }
         });
       });
+      const { _ne, _sw } = this.state.bounds;
+      axios
+        .get(`/api/places?nex=${_ne.x}&ney=${_ne.y}&swx=${_sw.x}&swy=${_sw.y}`)
+        .then(res => this.setState({ places: Array.from(res.data) }));
     }
   }
   //37.548345399999995,126.9254803
 
   render() {
-    console.log(this.state.center);
-    if (this.state.bounds) console.log(this.state.bounds._ne);
+    // if (this.state.bounds) console.log(this.state.bounds);
     return (
       <StyledMap
         naverRef={ref => {
