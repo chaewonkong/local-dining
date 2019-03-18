@@ -18,5 +18,8 @@
     "mongoose": "^5.4.19",
     "node": "^11.10.0",
     "nodemon": "^1.18.10"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }

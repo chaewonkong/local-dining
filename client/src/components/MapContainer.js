@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { RenderAfterNavermapsLoaded, NaverMap } from "react-naver-maps";
 import styled from "styled-components";
 
@@ -54,8 +53,6 @@ class Map extends Component {
   }
 }
 
-const mapStateToProps = state => state;
-
 const StyledMap = styled(NaverMap)`
   width: 100%;
   height: 100vh;
@@ -70,4 +67,4 @@ const MapContainer = () => {
     </RenderAfterNavermapsLoaded>
   );
 };
-export default connect(mapStateToProps)(MapContainer);
+export default MapContainer;
