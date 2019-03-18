@@ -353,3 +353,4 @@ gradle-app.setting
 
 # Configs
 server/config/dev.js
+server/seed.js
