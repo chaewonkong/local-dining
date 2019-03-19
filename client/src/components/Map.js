@@ -68,20 +68,20 @@ class Map extends Component {
 
 const mapStateToProps = state => state;
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     dispatch
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatch
+  };
+};
 
 const StyledMap = styled(NaverMap)`
-  width: 100%;
+  width: 70vw;
   height: 100vh;
   margin: 0;
   padding: 0;
 `;
 
 export default connect(
-  mapStateToProps
-  //   mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Map);

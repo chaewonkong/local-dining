@@ -34,7 +34,7 @@ class Landing extends Component {
     console.log(this.props);
     return (
       <Container>
-        <MapContainer />
+        <RenderedMap />
         <ListContainer>
           <div>{this.renderPlaces()}</div>
         </ListContainer>
@@ -47,14 +47,10 @@ const Container = styled.div`
   display: flex;
 `;
 
-const MapContainer = styled(RenderedMap)`
-  display: flex;
-  flex: 1;
-`;
-
 const ListContainer = styled.div`
   display: flex;
-  flex: 1;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const mapStateToProps = state => state;
