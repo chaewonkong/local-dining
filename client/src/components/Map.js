@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { RenderAfterNavermapsLoaded, NaverMap } from "react-naver-maps";
+import { Marker, NaverMap } from "react-naver-maps";
 import axios from "axios";
 import styled from "styled-components";
 import { updateList } from "../actions";
@@ -19,9 +19,28 @@ class Map extends Component {
     this.changeBounds(bounds);
   }
 
+  renderMarker() {
+    if (this.mapRef) {
+      this.props.places.map(place => {
+        const [lng, lat] = place.geometry.coordinates;
+        return (
+          <Marker
+            position={() => {
+              const navermaps = this.mapRef.props.navermaps;
+              return new navermaps.LatLng(parseFloat(lat), parseFloat(lng));
+            }}
+            zIndex={100}
+            visible
+          />
+        );
+      });
+    }
+  }
+
   componentDidMount() {
     // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
     this.changeBounds(this.mapRef.getBounds());
+    this.setState({ navermaps: window.naver.maps });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,11 +64,10 @@ class Map extends Component {
     }
   }
   //37.548345399999995,126.9254803
-
   render() {
     // if (this.state.bounds) console.log(this.state.bounds);
     // if (this.state) console.log(this.state);
-    // console.log(this.props);
+    console.log(this.props);
     return (
       <StyledMap
         naverRef={ref => {
@@ -57,11 +75,31 @@ class Map extends Component {
         }}
         mapDivId={"react-naver-map"}
         defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
-        defaultZoom={10}
+        defaultZoom={12}
         bounds={this.state.bounds}
         onBoundsChanged={this.handleBoundsChanged}
         center={this.state.center}
-      />
+      >
+        {this.mapRef
+          ? this.props.places.map(place => {
+              const [lng, lat] = place.geometry.coordinates;
+              return (
+                <Marker
+                  key={place._id}
+                  position={() => {
+                    const navermaps = this.mapRef.props.navermaps;
+                    return new navermaps.LatLng(
+                      parseFloat(lat),
+                      parseFloat(lng)
+                    );
+                  }}
+                  zIndex={100}
+                  visible
+                />
+              );
+            })
+          : null}
+      </StyledMap>
     );
   }
 }

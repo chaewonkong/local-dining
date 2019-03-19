@@ -21,7 +21,7 @@ class Landing extends Component {
     const places = this.props.places;
     return places.map(place => {
       return (
-        <div key={place.id || 0}>
+        <div key={place._id}>
           <h1>{place.name}</h1>
           <p>{place.address}</p>
           <p>평균 {place.avgPrice}원</p>
@@ -31,7 +31,6 @@ class Landing extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <Container>
         <RenderedMap />
