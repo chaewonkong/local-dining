@@ -15,10 +15,8 @@ class App extends Component {
       <BrowserRouter>
         <Container>
           {/* <PageHeader>This is Header</PageHeader> */}
-          <PageContainer>
-            <Route exact path="/" component={Landing} />
-            <Route path="/places" component={DetailView} />
-          </PageContainer>
+          <Route exact path="/" component={Landing} />
+          <Route path="/places" component={DetailView} />
           {/* <PageFooter>This is Footer</PageFooter> */}
         </Container>
       </BrowserRouter>
@@ -30,12 +28,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const PageContainer = styled.div`
-  width: 90%;
-  max-width: 800px;
-  margin: 0 0;
 `;
 
 const PageFooter = styled(Footer)`
