@@ -4,11 +4,14 @@ const path = require("path");
 const mongoose = require("mongoose");
 const Place = require("./models/Place");
 const keys = require("./config/keys");
+const cors = require("cors");
+const axios = require("axios");
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
@@ -35,6 +38,22 @@ app.get("/api/places", (req, res) => {
       ]
     })
     .then(places => res.send(places));
+});
+
+app.get("/api/search", (req, res) => {
+  let result;
+  const query = req._parsedUrl.query
+    .split("")
+    .splice(6)
+    .join("");
+  axios
+    .get(`https://openapi.naver.com/v1/search/local.json?query=${query}`, {
+      headers: {
+        "X-Naver-Client-Id": keys.naverSearchClientID,
+        "X-Naver-Client-Secret": keys.naverSearchClientSecret
+      }
+    })
+    .then(response => res.send(response.data));
 });
 
 const PORT = process.env.PORT || 5000;
