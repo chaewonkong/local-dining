@@ -3,15 +3,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
 import RenderedMap from "./RenderedMap";
-import List from "./List";
 
 class Landing extends Component {
   state = { places: [] };
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps !== this.props)
-  //     return this.setState({ places: this.props.places });
-  // }
 
   handleNearPlaces = places => {
     this.setState({ places });

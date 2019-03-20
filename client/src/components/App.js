@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Layout } from "antd";
 import Landing from "./Landing";
 import DetailView from "./DetailView";
+import AddPlace from "./AddPlace";
 import Header from "./Header";
 import "../App.css";
 
@@ -16,7 +17,8 @@ class App extends Component {
         <Container>
           {/* <PageHeader>This is Header</PageHeader> */}
           <Route exact path="/" component={Landing} />
-          <Route path="/places" component={DetailView} />
+          <Route exact path="/places" component={DetailView} />
+          <Route path="/places/add" component={AddPlace} />
           {/* <PageFooter>This is Footer</PageFooter> */}
         </Container>
       </BrowserRouter>
