@@ -31,14 +31,13 @@ class AddPlace extends Component {
   renderResult = () => {
     const results = this.state.searchResults;
     return results.map(result => {
-      console.log(result);
       const {
         roadAddress,
         category,
         description,
         link,
-        mapx,
-        mapy,
+        lat,
+        lng,
         telephone,
         title
       } = result;
@@ -49,7 +48,7 @@ class AddPlace extends Component {
         .split("</b>")
         .join("");
       return (
-        <ListItem key={[mapx, mapy].join("")}>
+        <ListItem key={[lat, lng].join("")}>
           <CardContent>
             <Typography color="textSecondary">
               {category.split(">").join(" / ")}
@@ -66,6 +65,9 @@ class AddPlace extends Component {
             </Anchor>
             <Typography color="textSecondary">전화번호: {telephone}</Typography>
             <Typography color="textSecondary">{description}</Typography>
+            <Typography color="textSecondary">
+              위도: {lat} / 경도: {lng}
+            </Typography>
           </CardContent>
         </ListItem>
       );

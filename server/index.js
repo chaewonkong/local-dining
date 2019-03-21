@@ -6,6 +6,7 @@ const Place = require("./models/Place");
 const keys = require("./config/keys");
 const cors = require("cors");
 const axios = require("axios");
+const katecToLatLng = require("./geoTrans");
 
 mongoose.connect(keys.mongoURI);
 
@@ -41,7 +42,6 @@ app.get("/api/places", (req, res) => {
 });
 
 app.get("/api/search", (req, res) => {
-  let result;
   const query = req._parsedUrl.query
     .split("")
     .splice(6)
@@ -53,7 +53,13 @@ app.get("/api/search", (req, res) => {
         "X-Naver-Client-Secret": keys.naverSearchClientSecret
       }
     })
-    .then(response => res.send(response.data));
+    .then(response => {
+      const results = response.data.items.map(item => {
+        const { lat, lng } = katecToLatLng(item.mapx, item.mapy);
+        return { lat, lng, ...item };
+      });
+      return res.send({ ...response.data, items: results });
+    });
 });
 
 const PORT = process.env.PORT || 5000;

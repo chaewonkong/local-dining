@@ -4,9 +4,14 @@ import { Marker, NaverMap } from "react-naver-maps";
 import axios from "axios";
 import styled from "styled-components";
 import { updateList } from "../actions";
+// import { mapxyToLatLong } from "../geoTrans";
 
 class Map extends Component {
-  state = { center: { lat: 37.3595704, lng: 127.105399 }, places: [] };
+  state = {
+    center: { lat: 37.3595704, lng: 127.105399 },
+    places: [],
+    zoom: 12
+  };
   constructor(props) {
     super(props);
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
@@ -63,11 +68,19 @@ class Map extends Component {
         });
     }
   }
+
+  handleZoomIn() {
+    this.setState({ zoom: this.state.zoom++ });
+  }
+
+  handleZoomOut() {
+    this.setState({ zoom: this.state.zoom-- });
+  }
+
   //37.548345399999995,126.9254803
   render() {
     // if (this.state.bounds) console.log(this.state.bounds);
     // if (this.state) console.log(this.state);
-    console.log(this.props);
     return (
       <StyledMap
         naverRef={ref => {
@@ -79,6 +92,8 @@ class Map extends Component {
         bounds={this.state.bounds}
         onBoundsChanged={this.handleBoundsChanged}
         center={this.state.center}
+        zoomControl
+        zoom={this.state.zoom}
       >
         {this.mapRef
           ? this.props.places.map(place => {
