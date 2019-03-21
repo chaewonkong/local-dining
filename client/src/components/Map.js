@@ -114,6 +114,19 @@ class Map extends Component {
               );
             })
           : null}
+        {/* {this.mapRef ? (
+          <Marker
+            position={() => {
+              const navermaps = this.mapRef.props.navermaps;
+              return new navermaps.LatLng(
+                37.54539524865834,
+                126.92753176889667
+              );
+            }}
+            zIndex={100}
+            visible
+          />
+        ) : null} */}
       </StyledMap>
     );
   }

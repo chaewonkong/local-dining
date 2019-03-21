@@ -360,7 +360,7 @@ const katecToLatLng = (mapx, mapy) => {
   geo.init("katec", "geo");
   const point = new Point(mapx, mapy);
   const { x, y } = geo.conv(point);
-  return { lat: x, lng: y };
+  return { lat: y, lng: x };
 };
 
 module.exports = katecToLatLng;

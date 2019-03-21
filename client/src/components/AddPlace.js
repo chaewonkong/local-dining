@@ -21,11 +21,40 @@ class AddPlace extends Component {
           "X-Naver-Client-Secret": "bOT4DsTAPY"
         }
       })
-      .then(res => this.setState({ searchResults: res.data.items }));
+      .then(res =>
+        this.setState({
+          searchResults: res.data.items.map(item => {
+            return {
+              ...item,
+              title: item.title
+                .split("<b>")
+                .join("")
+                .split("</b>")
+                .join(""),
+              category: item.category.split(">").join(" / ")
+            };
+          })
+        })
+      );
   };
 
   handleTextChange = e => {
     this.setState({ searchText: e.target.value });
+  };
+
+  handleCreatePlace = item => {
+    const { title, lat, lng, address } = item;
+    // axios
+    //   .post("/api/places", {
+    //     name: title,
+    //     geometry: {
+    //       type: "Point",
+    //       coordinates: [lng, lat]
+    //     },
+    //     address
+    //   })
+    //   .then(res => console.log(res));
+    // 현재 geoTrans가 결과 값으로 제공하는 좌표는 부정확한 좌표로 약 0.5km 오차가 존재
   };
 
   renderResult = () => {
@@ -48,7 +77,7 @@ class AddPlace extends Component {
         .split("</b>")
         .join("");
       return (
-        <ListItem key={[lat, lng].join("")}>
+        <ListItem key={results.indexOf(result)}>
           <CardContent>
             <Typography color="textSecondary">
               {category.split(">").join(" / ")}
@@ -68,6 +97,9 @@ class AddPlace extends Component {
             <Typography color="textSecondary">
               위도: {lat} / 경도: {lng}
             </Typography>
+            <button onClick={() => this.handleCreatePlace(result)}>
+              등록하기
+            </button>
           </CardContent>
         </ListItem>
       );
