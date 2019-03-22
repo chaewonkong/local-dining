@@ -14,28 +14,13 @@ class AddPlace extends Component {
   state = { searchText: "", searchResults: [] };
 
   handleClick = text => {
-    axios
-      .get(`/api/search?query=${text}`, {
-        headers: {
-          "X-Naver-Client-Id": "Cr_kJzv0CHomc2Oa22Mu",
-          "X-Naver-Client-Secret": "bOT4DsTAPY"
-        }
-      })
-      .then(res =>
-        this.setState({
-          searchResults: res.data.items.map(item => {
-            return {
-              ...item,
-              title: item.title
-                .split("<b>")
-                .join("")
-                .split("</b>")
-                .join(""),
-              category: item.category.split(">").join(" / ")
-            };
-          })
-        })
-      );
+    axios.get(`/api/search?query=${text}`).then(res => {
+      const searchResults = res.data.map(item => {
+        const { name, address, id, category, lat, lng, phone } = item;
+        return { name, address, id, category, lat, lng, phone };
+      });
+      this.setState({ searchResults });
+    });
   };
 
   handleTextChange = e => {
@@ -43,39 +28,23 @@ class AddPlace extends Component {
   };
 
   handleCreatePlace = item => {
-    const { title, lat, lng, address } = item;
-    // axios
-    //   .post("/api/places", {
-    //     name: title,
-    //     geometry: {
-    //       type: "Point",
-    //       coordinates: [lng, lat]
-    //     },
-    //     address
-    //   })
-    //   .then(res => console.log(res));
-    // 현재 geoTrans가 결과 값으로 제공하는 좌표는 부정확한 좌표로 약 0.5km 오차가 존재
+    const { name, lat, lng, address } = item;
+    axios
+      .post("/api/places", {
+        name,
+        geometry: {
+          type: "Point",
+          coordinates: [lng, lat]
+        },
+        address
+      })
+      .then(res => console.log(res));
   };
 
   renderResult = () => {
     const results = this.state.searchResults;
     return results.map(result => {
-      const {
-        roadAddress,
-        category,
-        description,
-        link,
-        lat,
-        lng,
-        telephone,
-        title
-      } = result;
-      let t = title;
-      t = t
-        .split("<b>")
-        .join("")
-        .split("</b>")
-        .join("");
+      const { address, category, lat, lng, phone, name } = result;
       return (
         <ListItem key={results.indexOf(result)}>
           <CardContent>
@@ -83,17 +52,10 @@ class AddPlace extends Component {
               {category.split(">").join(" / ")}
             </Typography>
             <Typography variant="h5" component="h2">
-              {t}
+              {name}
             </Typography>
-            <Typography color="textSecondary">{roadAddress}</Typography>
-            <Typography color="textSecondary">
-              {category.split(">").join(" / ")}
-            </Typography>
-            <Anchor href={link}>
-              <Typography color="textSecondary">{link}</Typography>
-            </Anchor>
-            <Typography color="textSecondary">전화번호: {telephone}</Typography>
-            <Typography color="textSecondary">{description}</Typography>
+            <Typography color="textSecondary">{address}</Typography>
+            <Typography color="textSecondary">전화번호: {phone}</Typography>
             <Typography color="textSecondary">
               위도: {lat} / 경도: {lng}
             </Typography>

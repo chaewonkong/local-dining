@@ -118,10 +118,7 @@ class Map extends Component {
           <Marker
             position={() => {
               const navermaps = this.mapRef.props.navermaps;
-              return new navermaps.LatLng(
-                37.54539524865834,
-                126.92753176889667
-              );
+              return new navermaps.LatLng(37.5480851767326, 126.925285776613);
             }}
             zIndex={100}
             visible

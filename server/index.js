@@ -47,18 +47,24 @@ app.get("/api/search", (req, res) => {
     .splice(6)
     .join("");
   axios
-    .get(`https://openapi.naver.com/v1/search/local.json?query=${query}`, {
+    .get(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`, {
       headers: {
-        "X-Naver-Client-Id": keys.naverSearchClientID,
-        "X-Naver-Client-Secret": keys.naverSearchClientSecret
+        Authorization: "KakaoAK 608b513f89e46075473ef312d8ea7a39"
       }
     })
     .then(response => {
-      const results = response.data.items.map(item => {
-        const { lat, lng } = katecToLatLng(item.mapx, item.mapy);
-        return { lat, lng, ...item };
+      const places = response.data.documents;
+      const results = places.map(place => {
+        return {
+          ...place,
+          name: place.place_name,
+          address: place.road_address_name,
+          category: place.category_name,
+          lat: place.y,
+          lng: place.x
+        };
       });
-      return res.send({ ...response.data, items: results });
+      res.send(results);
     });
 });
 
