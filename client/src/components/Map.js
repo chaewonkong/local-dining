@@ -15,6 +15,15 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
+    const navermaps = window.naver.maps;
+    this.state = {
+      zoomControlOptions: {
+        position: navermaps.Position.TOP_RIGHT
+      },
+      searchBox: {
+        position: navermaps.Position.TOP_LEFT
+      }
+    };
   }
   changeBounds(bounds) {
     this.setState({ bounds });
@@ -93,6 +102,7 @@ class Map extends Component {
         onBoundsChanged={this.handleBoundsChanged}
         center={this.state.center}
         zoomControl
+        zoomControlOptions={this.state.zoomControlOptions}
         zoom={this.state.zoom}
       >
         {this.mapRef
@@ -114,6 +124,17 @@ class Map extends Component {
               );
             })
           : null}
+
+        {this.mapRef ? (
+          <Overlay
+            position={() => this.mapRef.props.navermaps.Position.TOP_LEFT}
+            zIndex={100}
+            visible
+          />
+        ) : null}
+        {/* <Overlay position={() => this.state.searchBox} zIndex={100} visible>
+          This is overLay
+        </Overlay> */}
         {/* {this.mapRef ? (
           <Marker
             position={() => {
@@ -142,6 +163,13 @@ const StyledMap = styled(NaverMap)`
   height: 100vh;
   margin: 0;
   padding: 0;
+`;
+
+const Overlay = styled.div`
+  width: 100px;
+  height: 100px;
+  z-index: 100;
+  background: white;
 `;
 
 export default connect(

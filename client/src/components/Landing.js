@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import axios from "axios";
 import RenderedMap from "./RenderedMap";
 
 class Landing extends Component {
@@ -24,33 +24,15 @@ class Landing extends Component {
     });
   }
 
-  handleClick = () => {
-    axios
-      .get("/api/search?query=서양가트니", {
-        headers: {
-          "X-Naver-Client-Id": "Cr_kJzv0CHomc2Oa22Mu",
-          "X-Naver-Client-Secret": "bOT4DsTAPY"
-        }
-      })
-      .then(res => console.log(res));
-    // axios
-    //   .get(
-    //     "https://chaewonkong.github.io",
-    //     {},
-    //     {
-    //       headers: { "X-Naver-Client-Id": "a", "X-Naver-Client-Secret": "b" }
-    //     }
-    //   )
-    //   .then(res => console.log(res));
-  };
-
   render() {
     return (
       <Container>
         <RenderedMap />
         <ListContainer>
           <div>
-            <button onClick={this.handleClick}>네이버 검색</button>
+            <Link to="/places/add">
+              <button>네이버 검색</button>
+            </Link>
           </div>
           <div>{this.renderPlaces()}</div>
         </ListContainer>
