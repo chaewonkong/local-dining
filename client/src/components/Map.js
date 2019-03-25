@@ -1,178 +1,123 @@
+/*global daum*/
+
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Marker, NaverMap } from "react-naver-maps";
-import axios from "axios";
 import styled from "styled-components";
+import axios from "axios";
+import { connect } from "react-redux";
 import { updateList } from "../actions";
-// import { mapxyToLatLong } from "../geoTrans";
+import Search from "./Search";
 
 class Map extends Component {
-  state = {
-    center: { lat: 37.3595704, lng: 127.105399 },
-    places: [],
-    zoom: 12
-  };
-  constructor(props) {
-    super(props);
-    this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
-    const navermaps = window.naver.maps;
-    this.state = {
-      zoomControlOptions: {
-        position: navermaps.Position.TOP_RIGHT
-      },
-      searchBox: {
-        position: navermaps.Position.TOP_LEFT
-      }
-    };
-  }
-  changeBounds(bounds) {
-    this.setState({ bounds });
-  }
-
-  handleBoundsChanged(bounds) {
-    this.changeBounds(bounds);
-  }
-
-  renderMarker() {
-    if (this.mapRef) {
-      this.props.places.map(place => {
-        const [lng, lat] = place.geometry.coordinates;
-        return (
-          <Marker
-            position={() => {
-              const navermaps = this.mapRef.props.navermaps;
-              return new navermaps.LatLng(parseFloat(lat), parseFloat(lng));
-            }}
-            zIndex={100}
-            visible
-          />
-        );
-      });
-    }
-  }
+  state = { currentPos: {}, bounds: {}, level: 3 };
 
   componentDidMount() {
-    // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
-    this.changeBounds(this.mapRef.getBounds());
-    this.setState({ navermaps: window.naver.maps });
+    window.navigator.geolocation.getCurrentPosition(pos => {
+      this.setState({
+        currentPos: {
+          lat: parseFloat(pos.coords.latitude),
+          lng: parseFloat(pos.coords.longitude)
+        }
+      });
+    });
+
+    let el = document.getElementById("map");
+
+    let map = new daum.maps.Map(el, {
+      center: new daum.maps.LatLng(33.450701, 126.570667),
+      level: 3
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
-      window.navigator.geolocation.getCurrentPosition(pos => {
-        this.setState({
-          center: {
-            lat: parseFloat(pos.coords.latitude),
-            lng: parseFloat(pos.coords.longitude)
-          }
-        });
+      let el = document.getElementById("map");
+      const { lat, lng } = this.state.currentPos;
+      let map = new daum.maps.Map(el, {
+        center: new daum.maps.LatLng(lat, lng),
+        level: 3
       });
-      const { _ne, _sw } = this.state.bounds;
+
+      let bounds = map.getBounds();
+      let swLatLng = bounds.getSouthWest();
+      let neLatLng = bounds.getNorthEast();
+      const { swLat, swLng, neLat, neLng } = {
+        swLat: parseFloat(swLatLng.getLat()),
+        swLng: parseFloat(swLatLng.getLng()),
+        neLat: parseFloat(neLatLng.getLng()),
+        neLng: parseFloat(neLatLng.getLng())
+      };
+
+      this.renderControl(map);
+
       axios
-        .get(`/api/places?nex=${_ne.x}&ney=${_ne.y}&swx=${_sw.x}&swy=${_sw.y}`)
+        .get(
+          `/api/places?swLat=${swLat}&swLng=${swLng}&neLat=${neLat}&neLng=${neLng}`
+        )
         .then(res => {
           const places = Array.from(res.data);
-          //   console.log(updateList(p));
           this.props.dispatch(updateList(places));
-        });
+        })
+        .then(() => this.renderMarker(map));
     }
   }
 
-  handleZoomIn() {
-    this.setState({ zoom: this.state.zoom++ });
+  renderControl(map) {
+    const zoomControl = new daum.maps.ZoomControl();
+    map.addControl(zoomControl, daum.maps.ControlPosition.TOPRIGHT);
   }
 
-  handleZoomOut() {
-    this.setState({ zoom: this.state.zoom-- });
+  renderMarker(map) {
+    const places = this.props.places;
+
+    return places.map(place => {
+      const [lng, lat] = place.geometry.coordinates;
+      let markerPosition = new daum.maps.LatLng(
+        parseFloat(lat),
+        parseFloat(lng)
+      );
+      let marker = new daum.maps.Marker({
+        position: markerPosition
+      });
+      marker.setMap(map);
+    });
   }
 
-  //37.548345399999995,126.9254803
   render() {
-    // if (this.state.bounds) console.log(this.state.bounds);
-    // if (this.state) console.log(this.state);
     return (
-      <StyledMap
-        naverRef={ref => {
-          this.mapRef = ref;
-        }}
-        mapDivId={"react-naver-map"}
-        defaultCenter={{ lat: 37.3595704, lng: 127.105399 }}
-        defaultZoom={12}
-        bounds={this.state.bounds}
-        onBoundsChanged={this.handleBoundsChanged}
-        center={this.state.center}
-        zoomControl
-        zoomControlOptions={this.state.zoomControlOptions}
-        zoom={this.state.zoom}
-      >
-        {this.mapRef
-          ? this.props.places.map(place => {
-              const [lng, lat] = place.geometry.coordinates;
-              return (
-                <Marker
-                  key={place._id}
-                  position={() => {
-                    const navermaps = this.mapRef.props.navermaps;
-                    return new navermaps.LatLng(
-                      parseFloat(lat),
-                      parseFloat(lng)
-                    );
-                  }}
-                  zIndex={100}
-                  visible
-                />
-              );
-            })
-          : null}
-
-        {this.mapRef ? (
-          <Overlay
-            position={() => this.mapRef.props.navermaps.Position.TOP_LEFT}
-            zIndex={100}
-            visible
-          />
-        ) : null}
-        {/* <Overlay position={() => this.state.searchBox} zIndex={100} visible>
-          This is overLay
-        </Overlay> */}
-        {/* {this.mapRef ? (
-          <Marker
-            position={() => {
-              const navermaps = this.mapRef.props.navermaps;
-              return new navermaps.LatLng(37.5480851767326, 126.925285776613);
-            }}
-            zIndex={100}
-            visible
-          />
-        ) : null} */}
-      </StyledMap>
+      <Container>
+        <KakaoMap id="map" />
+        <Control>
+          <Search placeholder="장소 검색" elevation={3} />
+        </Control>
+      </Container>
     );
   }
 }
 
-const mapStateToProps = state => state;
-
-const mapDispatchToProps = dispatch => {
-  return {
-    dispatch
-  };
-};
-
-const StyledMap = styled(NaverMap)`
+const Container = styled.div`
   width: 70vw;
   height: 100vh;
-  margin: 0;
-  padding: 0;
+  position: relative;
+  overflow: hidden;
 `;
 
-const Overlay = styled.div`
-  width: 100px;
-  height: 100px;
-  z-index: 100;
+const KakaoMap = styled.div`
+  width: 70vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+`;
+
+const Control = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
+  z-index: 1;
   background: white;
+  padding: 1px;
 `;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Map);
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps)(Map);

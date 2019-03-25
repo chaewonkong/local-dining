@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Icon } from "antd";
-import {
-  Paper,
-  InputBase,
-  Card,
-  CardContent,
-  Typography
-} from "@material-ui/core";
+import { InputBase, Card, CardContent, Typography } from "@material-ui/core";
+import { Column, SearchBox, SearchButton } from "./common";
+import Search from "./Search";
 
 class AddPlace extends Component {
   state = { searchText: "", searchResults: [] };
@@ -71,16 +66,12 @@ class AddPlace extends Component {
     return (
       <Container>
         <Box>
-          <SearchBox elevation={1}>
-            <InputBase
-              placeholder="상호명 검색"
-              onChange={this.handleTextChange}
-            />
-            <SearchButton
-              type="search"
-              onClick={() => this.handleClick(this.state.searchText)}
-            />
-          </SearchBox>
+          <Search
+            elevation={1}
+            placeHolder="상호명 검색"
+            onChange={this.handleTextChange}
+            onClick={() => this.handleClick(this.state.searchText)}
+          />
         </Box>
         <Box>
           {this.state.searchResults.length ? (
@@ -94,11 +85,8 @@ class AddPlace extends Component {
   }
 }
 
-const Container = styled.div`
+const Container = styled(Column)`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const Box = styled.div`
@@ -107,29 +95,7 @@ const Box = styled.div`
 
 const ListItem = styled(Card)`
   width: 80vw;
-  //   border: 1px solid #bbb;
-  //   border-radius: 5px;
   margin: 2vh 0;
-  //   padding: 2vw;
-`;
-
-const SearchBox = styled(Paper)`
-  padding: 1vh 2vw;
-`;
-
-const SearchButton = styled(Icon)`
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    :hover {
-    transition: .2s ease-in-out
-    color: #0066cc;
-    background: #e7e7e7;
-  }
-`;
-
-const Anchor = styled.a`
-  text-decoration: none;
 `;
 
 export default AddPlace;

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import RenderedMap from "./RenderedMap";
+import Map from "./Map";
+import { Button, Card } from "antd";
+import { Column, Row } from "./common";
 
 class Landing extends Component {
   state = { places: [] };
@@ -15,11 +17,10 @@ class Landing extends Component {
     const places = this.props.places;
     return places.map(place => {
       return (
-        <div key={place._id}>
-          <h1>{place.name}</h1>
+        <CardItem hoverable title={place.name} key={place._id}>
           <p>{place.address}</p>
           <p>평균 {place.avgPrice}원</p>
-        </div>
+        </CardItem>
       );
     });
   }
@@ -27,15 +28,18 @@ class Landing extends Component {
   render() {
     return (
       <Container>
-        <RenderedMap />
-        <ListContainer>
-          <div>
+        <Map />
+        <Column>
+          <Row>
             <Link to="/places/add">
-              <button>네이버 검색</button>
+              <Button type="primary">착한밥집 추가하기</Button>
             </Link>
-          </div>
-          <div>{this.renderPlaces()}</div>
-        </ListContainer>
+            <Button type="secondary">필터</Button>
+          </Row>
+          <ListContainer>
+            <div>{this.renderPlaces()}</div>
+          </ListContainer>
+        </Column>
       </Container>
     );
   }
@@ -47,8 +51,13 @@ const Container = styled.div`
 
 const ListContainer = styled.div`
   display: flex;
+  width: 30vw;
   flex-direction: column;
   align-items: center;
+`;
+
+const CardItem = styled(Card)`
+  width: 30vw;
 `;
 
 const mapStateToProps = state => state;

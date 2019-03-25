@@ -30,12 +30,12 @@ app.post("/api/places", (req, res) => {
 });
 
 app.get("/api/places", (req, res) => {
-  const { nex, ney, swx, swy } = req.query;
+  const { neLat, neLng, swLat, swLng } = req.query;
   Place.where("geometry")
     .within({
       box: [
-        [parseFloat(nex), parseFloat(ney)],
-        [parseFloat(swx), parseFloat(swy)]
+        [parseFloat(neLng), parseFloat(neLat)],
+        [parseFloat(swLng), parseFloat(swLat)]
       ]
     })
     .then(places => res.send(places));
@@ -49,7 +49,7 @@ app.get("/api/search", (req, res) => {
   axios
     .get(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`, {
       headers: {
-        Authorization: "KakaoAK 608b513f89e46075473ef312d8ea7a39"
+        Authorization: `KakaoAK ${keys.kakaoRESTKey}`
       }
     })
     .then(response => {
