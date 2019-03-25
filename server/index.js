@@ -6,7 +6,6 @@ const Place = require("./models/Place");
 const keys = require("./config/keys");
 const cors = require("cors");
 const axios = require("axios");
-const katecToLatLng = require("./geoTrans");
 
 mongoose.connect(keys.mongoURI);
 
