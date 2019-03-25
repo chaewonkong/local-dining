@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { InputBase, Card, CardContent, Typography } from "@material-ui/core";
-import { Column, SearchBox, SearchButton } from "./common";
+import { Button } from "antd";
+import { Card, CardContent, Typography } from "@material-ui/core";
+import { Column, Row } from "./common";
 import Search from "./Search";
 
 class AddPlace extends Component {
@@ -54,9 +56,12 @@ class AddPlace extends Component {
             <Typography color="textSecondary">
               위도: {lat} / 경도: {lng}
             </Typography>
-            <button onClick={() => this.handleCreatePlace(result)}>
+            <Button
+              type="primary"
+              onClick={() => this.handleCreatePlace(result)}
+            >
               등록하기
-            </button>
+            </Button>
           </CardContent>
         </ListItem>
       );
@@ -65,6 +70,10 @@ class AddPlace extends Component {
   render() {
     return (
       <Container>
+        <Link to="/">
+          <Button type="secondary">돌아가기</Button>
+        </Link>
+
         <Box>
           <Search
             elevation={1}
