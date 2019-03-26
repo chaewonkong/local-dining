@@ -37,28 +37,35 @@ class Map extends Component {
         level: 3
       });
 
-      let bounds = map.getBounds();
-      let swLatLng = bounds.getSouthWest();
-      let neLatLng = bounds.getNorthEast();
-      const { swLat, swLng, neLat, neLng } = {
-        swLat: parseFloat(swLatLng.getLat()),
-        swLng: parseFloat(swLatLng.getLng()),
-        neLat: parseFloat(neLatLng.getLng()),
-        neLng: parseFloat(neLatLng.getLng())
-      };
-
       this.renderControl(map);
 
-      axios
-        .get(
-          `/api/places?swLat=${swLat}&swLng=${swLng}&neLat=${neLat}&neLng=${neLng}`
-        )
-        .then(res => {
-          const places = Array.from(res.data);
-          this.props.dispatch(updateList(places));
-        })
-        .then(() => this.renderMarker(map));
+      daum.maps.event.addListener(map, "center_changed", () => {
+        this.getPlacesFromBounds(map);
+      });
+      this.getPlacesFromBounds(map);
     }
+  }
+
+  getPlacesFromBounds(map) {
+    let bounds = map.getBounds();
+    let swLatLng = bounds.getSouthWest();
+    let neLatLng = bounds.getNorthEast();
+    const { swLat, swLng, neLat, neLng } = {
+      swLat: parseFloat(swLatLng.getLat()),
+      swLng: parseFloat(swLatLng.getLng()),
+      neLat: parseFloat(neLatLng.getLng()),
+      neLng: parseFloat(neLatLng.getLng())
+    };
+
+    axios
+      .get(
+        `/api/places?swLat=${swLat}&swLng=${swLng}&neLat=${neLat}&neLng=${neLng}`
+      )
+      .then(res => {
+        const places = Array.from(res.data);
+        this.props.dispatch(updateList(places));
+      })
+      .then(() => this.renderMarker(map));
   }
 
   renderControl(map) {
@@ -83,6 +90,7 @@ class Map extends Component {
   }
 
   render() {
+    // console.log(this.state);
     return (
       <Container>
         <KakaoMap id="map" />
