@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "antd";
 import { Card, CardContent, Typography } from "@material-ui/core";
-import { Column, Row } from "./common";
+import { Column, Row, Header } from "./common";
 import Search from "./Search";
 
 class AddPlace extends Component {
@@ -70,9 +69,7 @@ class AddPlace extends Component {
   render() {
     return (
       <Container>
-        <Link to="/">
-          <Button type="secondary">돌아가기</Button>
-        </Link>
+        <Header title="착한밥집 추가하기" />
 
         <Box>
           <Search
@@ -99,7 +96,7 @@ const Container = styled(Column)`
 `;
 
 const Box = styled.div`
-  margin: 2vh 0;
+  margin: 3vh 0;
 `;
 
 const ListItem = styled(Card)`
