@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { Button } from "antd";
-import { Card, CardContent, Typography } from "@material-ui/core";
-import { Column, Row, Header } from "./common";
+import { Column, Header } from "./common";
 import Search from "./Search";
 import ListView from "./ListView";
 
 class AddPlace extends Component {
   state = { searchText: "", searchResults: [] };
 
-  handleClick = text => {
+  handleClick = () => {
+    const text = this.state.searchText;
     axios.get(`/api/search?query=${text}`).then(res => {
       const searchResults = res.data.map(item => {
         const { name, address, id, category, lat, lng, phone } = item;
@@ -34,7 +33,7 @@ class AddPlace extends Component {
             elevation={1}
             placeholder="상호명을 검색해 주세요"
             onChange={this.handleTextChange}
-            onClick={() => this.handleClick(this.state.searchText)}
+            onClick={() => this.handleClick()}
           />
         </SearchBox>
         <ListBox>
@@ -59,11 +58,6 @@ const SearchBox = styled.div`
 
 const ListBox = styled.div`
   width: 90%;
-`;
-
-const ListItem = styled(Card)`
-  width: 80vw;
-  margin: 2vh 0;
 `;
 
 export default AddPlace;
