@@ -25,6 +25,9 @@ export const SearchBox = styled(Paper)`
   justify-content: space-between;
   align-items: center;
   padding: 1vh 2vw;
+  & input {
+    min-width: 24vw;
+  }
 `;
 
 export const SearchButton = styled(Icon)`
@@ -52,7 +55,7 @@ export const Header = props => (
   </HeaderContainer>
 );
 
-const Inner = styled.div`
+export const Inner = styled.div`
   width: 90%;
   display: flex;
   justify-content: space-between;

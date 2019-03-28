@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import { Column, Row, Header } from "./common";
 import Search from "./Search";
+import ListView from "./ListView";
 
 class AddPlace extends Component {
   state = { searchText: "", searchResults: [] };
@@ -71,21 +72,20 @@ class AddPlace extends Component {
       <Container>
         <Header title="착한밥집 추가하기" />
 
-        <Box>
+        <SearchBox>
           <Search
             elevation={1}
-            placeHolder="상호명 검색"
+            placeholder="상호명을 검색해 주세요"
             onChange={this.handleTextChange}
             onClick={() => this.handleClick(this.state.searchText)}
           />
-        </Box>
-        <Box>
+        </SearchBox>
+        <ListBox>
           {this.state.searchResults.length ? (
-            this.renderResult()
-          ) : (
-            <p>상호명을 검색해 주세요</p>
-          )}
-        </Box>
+            // this.renderResult()
+            <ListView data={this.state.searchResults} />
+          ) : null}
+        </ListBox>
       </Container>
     );
   }
@@ -95,8 +95,14 @@ const Container = styled(Column)`
   width: 100%;
 `;
 
-const Box = styled.div`
+const SearchBox = styled.div`
   margin: 3vh 0;
+  display: flex;
+  justify-content: center;
+`;
+
+const ListBox = styled.div`
+  width: 90%;
 `;
 
 const ListItem = styled(Card)`
