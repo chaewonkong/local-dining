@@ -24,49 +24,6 @@ class AddPlace extends Component {
     this.setState({ searchText: e.target.value });
   };
 
-  handleCreatePlace = item => {
-    const { name, lat, lng, address } = item;
-    axios
-      .post("/api/places", {
-        name,
-        geometry: {
-          type: "Point",
-          coordinates: [lng, lat]
-        },
-        address
-      })
-      .then(res => console.log(res));
-  };
-
-  renderResult = () => {
-    const results = this.state.searchResults;
-    return results.map(result => {
-      const { address, category, lat, lng, phone, name } = result;
-      return (
-        <ListItem key={results.indexOf(result)}>
-          <CardContent>
-            <Typography color="textSecondary">
-              {category.split(">").join(" / ")}
-            </Typography>
-            <Typography variant="h5" component="h2">
-              {name}
-            </Typography>
-            <Typography color="textSecondary">{address}</Typography>
-            <Typography color="textSecondary">전화번호: {phone}</Typography>
-            <Typography color="textSecondary">
-              위도: {lat} / 경도: {lng}
-            </Typography>
-            <Button
-              type="primary"
-              onClick={() => this.handleCreatePlace(result)}
-            >
-              등록하기
-            </Button>
-          </CardContent>
-        </ListItem>
-      );
-    });
-  };
   render() {
     return (
       <Container>
@@ -82,7 +39,6 @@ class AddPlace extends Component {
         </SearchBox>
         <ListBox>
           {this.state.searchResults.length ? (
-            // this.renderResult()
             <ListView data={this.state.searchResults} />
           ) : null}
         </ListBox>
