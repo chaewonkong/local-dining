@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -6,7 +7,7 @@ import { Column, Header } from "./common";
 import Search from "./Search";
 import ListView from "./ListView";
 import AddDetail from "./AddDetail";
-import { SEARCH, ADD_DETAIL, PLACE_LIST } from "../actions/types";
+import { SEARCH, ADD_DETAIL, PLACE_LIST, ADD_SUCCESS } from "../actions/types";
 
 class AddPlace extends Component {
   state = { searchText: "", searchResults: [], type: SEARCH };
@@ -35,7 +36,6 @@ class AddPlace extends Component {
 
   renderView() {
     const { type } = this.state;
-    console.log(this.props);
     switch (type) {
       case SEARCH:
         return (
@@ -68,6 +68,9 @@ class AddPlace extends Component {
             </ListBox>
           </Fragment>
         );
+      case ADD_SUCCESS:
+        alert("착한밥집 추가에 성공했어요~");
+        return <Redirect to="/" />;
       default:
         return <p>Loading...</p>;
     }
@@ -79,19 +82,6 @@ class AddPlace extends Component {
         <Header title="착한밥집 추가하기" />
 
         {this.renderView()}
-        {/* <SearchBox>
-          <Search
-            elevation={1}
-            placeholder="상호명을 검색해 주세요"
-            onChange={this.handleTextChange}
-            onClick={() => this.handleClick()}
-          />
-        </SearchBox>
-        <ListBox>
-          {this.state.searchResults.length ? (
-            <ListView data={this.state.searchResults} />
-          ) : null}
-        </ListBox> */}
       </Container>
     );
   }

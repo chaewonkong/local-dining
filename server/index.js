@@ -6,6 +6,8 @@ const Place = require("./models/Place");
 const keys = require("./config/keys");
 const cors = require("cors");
 const axios = require("axios");
+const multer = require("multer");
+const upload = multer();
 
 mongoose.connect(keys.mongoURI);
 
@@ -21,11 +23,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
-app.post("/api/places", (req, res) => {
-  const placeProps = req.body;
-  Place.create(placeProps).then(place => {
-    res.send(place);
-  });
+// app.post("/api/places", (req, res) => {
+//   const placeProps = req.body;
+//   Place.create(placeProps).then(place => {
+//     res.send(place);
+//   });
+// });
+
+app.post("/api/places", upload.array("image"), (req, res) => {
+  console.log(req.files);
+  console.log(req.body);
+  res.status(200).send();
 });
 
 app.get("/api/places", (req, res) => {

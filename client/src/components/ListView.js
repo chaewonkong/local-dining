@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { List, Button } from "antd";
 import styled from "styled-components";
 import { addPlace } from "../actions";
-import { SEARCH, ADD_DETAIL, PLACE_LIST } from "../actions/types";
+import { SEARCH, ADD_DETAIL, PLACE_LIST, ADD_SUCCESS } from "../actions/types";
 
 class ListView extends Component {
   handleCreatePlace = item => {
