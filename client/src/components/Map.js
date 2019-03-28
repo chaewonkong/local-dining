@@ -85,7 +85,7 @@ class Map extends Component {
       let marker = new daum.maps.Marker({
         position: markerPosition
       });
-      marker.setMap(map);
+      return marker.setMap(map);
     });
   }
 

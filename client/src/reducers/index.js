@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
-import places from "./places";
+import { places, newPlace } from "./places";
 
 export default combineReducers({
-  places
+  places,
+  newPlace
 });

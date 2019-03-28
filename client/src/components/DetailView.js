@@ -1,5 +1,5 @@
 import React from "react";
 
-const DetailView = () => <div>Detail View</div>;
+const DetailView = () => <div />;
 
 export default DetailView;

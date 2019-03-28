@@ -30,17 +30,4 @@ class App extends Component {
   }
 }
 
-const PageFooter = styled(Footer)`
-  position: absolute;
-  bottom: 0;
-`;
-
-const PageHeader = styled(Header)`
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  background-color: #fff;
-  height: 64;
-`;
-
 export default App;

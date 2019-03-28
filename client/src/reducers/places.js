@@ -1,12 +1,11 @@
-import { FETCH_LIST } from "../actions/types";
+import { FETCH_LIST, ADD_PLACE } from "../actions/types";
 
-const places = (state = [], action) => {
-  switch (action.type) {
-    case FETCH_LIST:
-      return action.payload || null;
-    default:
-      return state;
-  }
+export const places = (state = [], action) => {
+  if (action.type === FETCH_LIST) return action.payload || null;
+  else return state;
 };
 
-export default places;
+export const newPlace = (state = {}, action) => {
+  if (action.type === ADD_PLACE) return action.payload;
+  else return state;
+};
