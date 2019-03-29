@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Upload, Icon, Modal, Button } from "antd";
-import axios from "axios";
+import { Upload, Icon, Modal } from "antd";
 import { addPlace } from "../actions";
-import { SEARCH, ADD_DETAIL, PLACE_LIST, ADD_SUCCESS } from "../actions/types";
+import { ADD_DETAIL } from "../actions/types";
 
 class UploadImage extends Component {
   state = {
@@ -27,27 +26,6 @@ class UploadImage extends Component {
     this.setState({ fileList });
   };
 
-  handleUpload = files => {
-    const { name, address, category, lat, lng } = this.props;
-    const formData = new FormData();
-    files.map(file => formData.append("image", file));
-    formData.append("name", name);
-    formData.append("address", address);
-    formData.append("lat", lat);
-    formData.append("lng", lng);
-    formData.append("category", category);
-    axios
-      .post("/api/places", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then(res => {
-        if (res.status === 200)
-          this.props.dispatch(addPlace(this.props, ADD_SUCCESS));
-        else console.log("Fail");
-      });
-  };
   beforeUpload = file => {
     const { urlList, images } = this.state;
     const url = URL.createObjectURL(file);
@@ -55,6 +33,9 @@ class UploadImage extends Component {
       images: [...images, file],
       urlList: [...urlList, { uid: file.uid, url: url }]
     });
+    this.props.dispatch(
+      addPlace({ ...this.props, images: [...images, file] }, ADD_DETAIL)
+    );
   };
 
   render() {
@@ -84,12 +65,12 @@ class UploadImage extends Component {
         >
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
-        <Button
+        {/* <Button
           type="primary"
           onClick={() => this.handleUpload(this.state.images)}
         >
-          사진 올리기
-        </Button>
+          착한밥집 추가하기
+        </Button> */}
       </div>
     );
   }

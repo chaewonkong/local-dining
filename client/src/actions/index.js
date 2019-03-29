@@ -6,6 +6,6 @@ export const updateList = places => ({
 });
 
 export const addPlace = (place, type) => ({
-  type: ADD_PLACE,
-  payload: { place, type }
+  type,
+  payload: { ...place }
 });
