@@ -1,4 +1,4 @@
-import { FETCH_LIST, ADD_PLACE } from "./types";
+import { FETCH_LIST } from "./types";
 
 export const updateList = places => ({
   type: FETCH_LIST,

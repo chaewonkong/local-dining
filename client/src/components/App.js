@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import styled, { ThemeProvider } from "styled-components";
-import { Layout } from "antd";
+import { ThemeProvider } from "styled-components";
 import Landing from "./Landing";
 import DetailView from "./DetailView";
 import AddPlace from "./AddPlace";
-import Header from "./Header";
 import { Row } from "./common";
 import theme from "./common/theme";
 import "../App.css";
-
-const { Footer } = Layout;
 
 class App extends Component {
   render() {

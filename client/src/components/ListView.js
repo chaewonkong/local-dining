@@ -3,21 +3,10 @@ import { connect } from "react-redux";
 import { List, Button } from "antd";
 import styled from "styled-components";
 import { addPlace } from "../actions";
-import { SEARCH, ADD_DETAIL, PLACE_LIST, ADD_SUCCESS } from "../actions/types";
+import { ADD_DETAIL } from "../actions/types";
 
 class ListView extends Component {
   handleCreatePlace = item => {
-    // const { name, lat, lng, address } = item;
-    // axios
-    //   .post("/api/places", {
-    //     name,
-    //     geometry: {
-    //       type: "Point",
-    //       coordinates: [lng, lat]
-    //     },
-    //     address
-    //   })
-    //   .then(res => console.log(res));
     return this.props.dispatch(addPlace(item, ADD_DETAIL));
   };
 
