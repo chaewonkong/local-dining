@@ -4,14 +4,19 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import styled from "styled-components";
-import { Card, Button, Slider } from "antd";
+import { Card, Button, Slider, Input, Icon } from "antd";
 import UploadImage from "./UploadImage";
 import { Column, Row } from "./common";
 import { addPlace } from "../actions";
 import { ADD_SUCCESS } from "../actions/types";
 
+const InputGroup = Input.Group;
+
 class AddDetail extends Component {
-  state = {};
+  state = {
+    menu: [],
+    priceRange: []
+  };
   componentDidMount() {
     const { lat, lng } = this.props.newPlace.place;
 
@@ -44,7 +49,10 @@ class AddDetail extends Component {
       lat,
       lng
     } = this.props.newPlace.place;
+    const { menu, priceRange } = this.state;
     const formData = new FormData();
+    if (menu.length) formData.append("menu", menu);
+    if (priceRange.length) formData.append("priceRange", priceRange);
     if (images) images.map(file => formData.append("image", file));
     formData.append("name", name);
     formData.append("address", address);
@@ -64,6 +72,22 @@ class AddDetail extends Component {
       });
   };
 
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+  handleAddMenu = () => {
+    this.setState({
+      menu: [
+        ...this.state.menu,
+        { menu: this.state.item, price: this.state.price }
+      ],
+      item: "",
+      price: ""
+    });
+  };
+
   render() {
     console.log(this.state);
     const { name, address, category } = this.props.newPlace.place;
@@ -77,10 +101,41 @@ class AddDetail extends Component {
         <Container>
           <Box>
             <CardItem title={name}>
+              <ImageMap id="staticMap" />
               <p>{category}</p>
-              <p>대표메뉴</p>
-              <p>메뉴</p>
-              <span>가격범위</span>
+              <p>{address}</p>
+            </CardItem>
+          </Box>
+          <Box>
+            <CardItem>
+              <h3>메뉴</h3>
+              {this.state.menu.map(item => (
+                <MenuList key={item.menu}>
+                  <span>
+                    <b>{item.menu} </b>
+                  </span>
+                  <span>{item.price} 원</span>
+                </MenuList>
+              ))}
+              <InputGroup compact>
+                <MenuInput
+                  placeholder="메뉴"
+                  onChange={this.handleChange}
+                  name="item"
+                  value={this.state.item || ""}
+                />
+                <MenuInput
+                  placeholder="가격"
+                  onChange={this.handleChange}
+                  name="price"
+                  value={this.state.price || ""}
+                />
+                <Button onClick={this.handleAddMenu}>
+                  <Icon type="check-circle" />
+                </Button>
+              </InputGroup>
+              <br />
+              <h3>가격범위</h3>
               <Slider
                 range
                 defaultValue={[6500, 10000]}
@@ -91,12 +146,10 @@ class AddDetail extends Component {
                 tooltipVisible
                 onChange={priceRange => this.setState({ priceRange })}
               />
+              <br />
+
               <UploadImage />
             </CardItem>
-          </Box>
-          <Box>
-            <ImageMap id="staticMap" />
-            <p>{address}</p>
           </Box>
         </Container>
         <Row>
@@ -137,17 +190,27 @@ const Box = styled(Column)`
 `;
 
 const ImageMap = styled.div`
-  width: 45vw;
+  width: 30vw;
   height: 300px;
   margin-bottom: 2vh;
 `;
 
 const CardItem = styled(Card)`
   width: 90%;
+  // display: flex;
+  // justify-content: center;
 `;
 
 const StyledButton = styled(Button)`
   margin: 0 0.3vw;
+`;
+
+const MenuInput = styled(Input)`
+  width: 45% !important;
+`;
+
+const MenuList = styled.div`
+  margin: 2vh 0;
 `;
 
 const mapStateToProps = state => state;
