@@ -13,14 +13,22 @@ const PlaceSchema = new Schema({
     type: String,
     required: true
   },
-  avgPrice: {
-    type: Number
+  priceRange: {
+    type: [Number]
   },
   geometry: PointSchema,
   address: {
+    type: String,
+    required: true
+  },
+  category: {
     type: String
   },
-  menu: [MenuSchema]
+  images: { type: [String] },
+  menu: [MenuSchema],
+  phone: {
+    type: String
+  }
 });
 
 const Place = mongoose.model("place", PlaceSchema);

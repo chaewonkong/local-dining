@@ -82,7 +82,7 @@ class AddDetail extends Component {
     this.setState({
       menu: [
         ...this.state.menu,
-        { menu: this.state.item, price: this.state.price }
+        { name: this.state.item, price: this.state.price }
       ],
       item: "",
       price: ""
@@ -110,9 +110,9 @@ class AddDetail extends Component {
             <CardItem>
               <h3>메뉴</h3>
               {this.state.menu.map(item => (
-                <MenuList key={item.menu}>
+                <MenuList key={item.name}>
                   <span>
-                    <b>{item.menu} </b>
+                    <b>{item.name} </b>
                   </span>
                   <span>{item.price} 원</span>
                 </MenuList>
