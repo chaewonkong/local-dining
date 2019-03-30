@@ -31,8 +31,11 @@ app.get("/", (req, res) => {
 // });
 
 app.post("/api/places", upload.array("image"), (req, res) => {
-  console.log(req.files);
-  console.log(req.body);
+  const images = req.files;
+  let { menu, priceRange, name, address, lat, lng, category } = req.body;
+  if (menu) menu = JSON.parse(menu);
+  if (priceRange) priceRange = JSON.parse(priceRange);
+  console.log(menu, priceRange);
   res.status(200).send();
 });
 

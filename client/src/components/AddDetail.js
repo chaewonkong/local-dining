@@ -51,8 +51,9 @@ class AddDetail extends Component {
     } = this.props.newPlace.place;
     const { menu, priceRange } = this.state;
     const formData = new FormData();
-    if (menu.length) formData.append("menu", menu);
-    if (priceRange.length) formData.append("priceRange", priceRange);
+    if (menu.length) formData.append("menu", JSON.stringify(menu));
+    if (priceRange.length)
+      formData.append("priceRange", JSON.stringify(priceRange));
     if (images) images.map(file => formData.append("image", file));
     formData.append("name", name);
     formData.append("address", address);
@@ -89,7 +90,6 @@ class AddDetail extends Component {
   };
 
   render() {
-    console.log(this.state);
     const { name, address, category } = this.props.newPlace.place;
     const marks = {
       2000: "2,000원",
