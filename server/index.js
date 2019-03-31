@@ -7,7 +7,35 @@ const keys = require("./config/keys");
 const cors = require("cors");
 const axios = require("axios");
 const multer = require("multer");
-const upload = multer();
+const multerS3 = require("multer-s3");
+const AWS = require("aws-sdk");
+
+AWS.config.loadFromPath(__dirname + "/config/awsconfig.json");
+let s3 = new AWS.S3();
+const state = {
+  images: []
+};
+
+const upload = multer({
+  storage: multerS3({
+    s3,
+    bucket: "elasticbeanstalk-ap-northeast-2-832813130302/uploads",
+    acl: "public-read",
+    metadata: function(req, file, cb) {
+      cb(null, { fileName: file.fieldname });
+    },
+    key: function(req, file, cb) {
+      let fileName = Date.now().toString() + path.extname(file.originalname);
+      const baseUrl =
+        "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-832813130302/uploads/";
+      state.images.push(baseUrl + fileName);
+      cb(null, fileName);
+    }
+  })
+});
+
+// const memoryStorage = multer.memoryStorage();
+// const upload = multer({ storage: memoryStorage });
 
 mongoose.connect(keys.mongoURI);
 
@@ -31,12 +59,12 @@ app.get("/", (req, res) => {
 // });
 
 app.post("/api/places", upload.array("image"), (req, res) => {
-  const images = req.files;
   let { menu, priceRange, name, address, lat, lng, category, tags } = req.body;
   if (menu) menu = JSON.parse(menu);
   if (priceRange) priceRange = JSON.parse(priceRange);
   if (tags) tags = JSON.parse(tags);
-  console.log(menu, priceRange, tags);
+  const images = state.images;
+  state.images = [];
   res.status(200).send();
 });
 
