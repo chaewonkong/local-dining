@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Map from "./Map";
-import { Button, Card } from "antd";
+import { Button, Card, Icon } from "antd";
 import { Column, Row } from "./common";
 
 class Landing extends Component {

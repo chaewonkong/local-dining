@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { connect } from "react-redux";
+import { Icon } from "antd";
 import { updateList } from "../actions";
 import Search from "./Search";
 
@@ -75,6 +76,10 @@ class Map extends Component {
 
   renderMarker(map) {
     const places = this.props.places;
+    const imageSrc = "https://img.icons8.com/color/48/000000/marker.png";
+    const imageSize = new daum.maps.Size(30, 30);
+    const markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
+    const { lat, lng } = this.state.currentPos;
 
     return places.map(place => {
       const [lng, lat] = place.geometry.coordinates;
@@ -83,14 +88,21 @@ class Map extends Component {
         parseFloat(lng)
       );
       let marker = new daum.maps.Marker({
-        position: markerPosition
+        position: markerPosition,
+        image: markerImage
       });
       return marker.setMap(map);
     });
+    // let markerPosition = new daum.maps.LatLng(lat, lng);
+    // let marker = new daum.maps.Marker({
+    //   position: markerPosition,
+    //   image: markerImage
+    // });
+    // return marker.setMap(map);
   }
 
   render() {
-    // console.log(this.state);
+    console.log(this.state);
     return (
       <Container>
         <KakaoMap id="map" />
