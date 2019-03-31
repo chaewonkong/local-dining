@@ -55,6 +55,7 @@ class UploadImage extends Component {
           fileList={urlList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          style={{ background: "#ffffff" }}
         >
           {fileList.length >= 3 ? null : uploadButton}
         </Upload>
@@ -65,12 +66,6 @@ class UploadImage extends Component {
         >
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
-        {/* <Button
-          type="primary"
-          onClick={() => this.handleUpload(this.state.images)}
-        >
-          착한밥집 추가하기
-        </Button> */}
       </div>
     );
   }
