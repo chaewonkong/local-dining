@@ -16,10 +16,23 @@ class Landing extends Component {
   renderPlaces() {
     const places = this.props.places;
     return places.map(place => {
+      const [min, max] = place.priceRange;
       return (
         <CardItem hoverable title={place.name} key={place._id}>
+          <img
+            src={place.images[0]}
+            width="100%"
+            style={{ maxHeight: "300px" }}
+          />
           <p>{place.address}</p>
-          <p>평균 {place.avgPrice}원</p>
+          {place.menu.map(item => (
+            <p>
+              <b>{item.name}</b> {item.price}{" "}
+            </p>
+          ))}
+          <p>
+            {min} ~ {max} 원
+          </p>
         </CardItem>
       );
     });

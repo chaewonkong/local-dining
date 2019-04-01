@@ -42,13 +42,6 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
-// app.post("/api/places", (req, res) => {
-//   const placeProps = req.body;
-//   Place.create(placeProps).then(place => {
-//     res.send(place);
-//   });
-// });
-
 app.post("/api/places", upload.array("image"), (req, res) => {
   const baseURL =
     "https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-832813130302/uploads/";
@@ -72,7 +65,6 @@ app.post("/api/places", upload.array("image"), (req, res) => {
   Place.create(placeProps).then(place => {
     res.send(place);
   });
-  // res.status(200).send();
 });
 
 app.get("/api/places", (req, res) => {
