@@ -28,7 +28,8 @@ const PlaceSchema = new Schema({
   menu: [MenuSchema],
   phone: {
     type: String
-  }
+  },
+  tags: { type: [String] }
 });
 
 const Place = mongoose.model("place", PlaceSchema);
